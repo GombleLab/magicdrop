@@ -31,25 +31,32 @@ export const freezeTrading = async (
   const whitelistid = args.whitelistid ?? ERC721CV2_EMPTY_LIST;
   const permittedreceiverid = args.permittedreceiverid ?? ERC721CV2_EMPTY_LIST;
 
-  const tx =
-    await contract.populateTransaction.setToCustomValidatorAndSecurityPolicy(
-      validator,
-      level,
-      whitelistid,
-      permittedreceiverid,
-    );
-  await estimateGas(hre, tx);
-  console.log(`Going to freeze contract: ${args.contract}`);
-  if (!(await confirm({ message: 'Continue?' }))) return;
-
-  const submittedTx = await contract.setToCustomValidatorAndSecurityPolicy(
+  const data = contract.interface.encodeFunctionData('setToCustomValidatorAndSecurityPolicy', [
     validator,
     level,
     whitelistid,
     permittedreceiverid,
-  );
-
-  console.log(`Submitted tx ${submittedTx.hash}`);
-  await submittedTx.wait();
-  console.log(`Contract ${args.contract} freezed`);
+  ]);
+  console.log(`Data: ${data}`);
+  // const tx =
+  //   await contract.populateTransaction.setToCustomValidatorAndSecurityPolicy(
+  //     validator,
+  //     level,
+  //     whitelistid,
+  //     permittedreceiverid,
+  //   );
+  // await estimateGas(hre, tx);
+  // console.log(`Going to freeze contract: ${args.contract}`);
+  // if (!(await confirm({ message: 'Continue?' }))) return;
+  //
+  // const submittedTx = await contract.setToCustomValidatorAndSecurityPolicy(
+  //   validator,
+  //   level,
+  //   whitelistid,
+  //   permittedreceiverid,
+  // );
+  //
+  // console.log(`Submitted tx ${submittedTx.hash}`);
+  // await submittedTx.wait();
+  // console.log(`Contract ${args.contract} freezed`);
 };

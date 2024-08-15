@@ -110,19 +110,22 @@ export const setStages = async (
     ),
   );
 
-  const tx = await contract.populateTransaction.setStages(stages);
-  if (!(await estimateGas(hre, tx, overrides))) return;
+  const data = contract.interface.encodeFunctionData('setStages', [stages]);
+  console.log(`Data: ${data}`);
 
-  if (!(await confirm({ message: 'Continue to set stages?' }))) return;
-
-  const submittedTx = await contract.setStages(stages, overrides);
-
-  console.log(`Submitted tx ${submittedTx.hash}`);
-  await submittedTx.wait();
-  console.log('Stages set');
-
-  for (let i = 0; i < stagesConfig.length; i++) {
-    const [stage] = await contract.getStageInfo(i);
-    console.log(`Stage ${i} info: ${stage}`);
-  }
+  // const tx = await contract.populateTransaction.setStages(stages);
+  // if (!(await estimateGas(hre, tx, overrides))) return;
+  //
+  // if (!(await confirm({ message: 'Continue to set stages?' }))) return;
+  //
+  // const submittedTx = await contract.setStages(stages, overrides);
+  //
+  // console.log(`Submitted tx ${submittedTx.hash}`);
+  // await submittedTx.wait();
+  // console.log('Stages set');
+  //
+  // for (let i = 0; i < stagesConfig.length; i++) {
+  //   const [stage] = await contract.getStageInfo(i);
+  //   console.log(`Stage ${i} info: ${stage}`);
+  // }
 };

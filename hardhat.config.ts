@@ -45,6 +45,7 @@ import {
   ownerMint1155,
 } from './scripts';
 import { deployCloneFactory } from './scripts/deployCloneFactory';
+import { ContractDetails } from './scripts/common/constants';
 
 const config: HardhatUserConfig = {
   solidity: {
@@ -82,6 +83,12 @@ const config: HardhatUserConfig = {
     },
     base: {
       url: process.env.BASE_URL || '',
+      accounts:
+        process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
+    },
+    base_testnet: {
+      url: "https://base-sepolia-rpc.publicnode.com",
+      chainId: 84532,
       accounts:
         process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
     },

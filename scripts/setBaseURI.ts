@@ -24,13 +24,15 @@ export const setBaseURI = async (
   }
   const ERC721M = await ethers.getContractFactory(ContractDetails.ERC721M.name);
   const contract = ERC721M.attach(args.contract);
-  const tx = await contract.populateTransaction.setBaseURI(args.uri);
-  if (!(await estimateGas(hre, tx, overrides))) return;
-  const submittedTx = await contract.setBaseURI(args.uri, overrides);
-
-  console.log(`Submitted tx ${submittedTx.hash}`);
-
-  await submittedTx.wait();
-
-  console.log('Set baseURI:', submittedTx.hash);
+  const data = await contract.interface.encodeFunctionData('setBaseURI', [args.uri]);
+  console.log(`Data: ${data}`);
+  // const tx = await contract.populateTransaction.setBaseURI(args.uri);
+  // if (!(await estimateGas(hre, tx, overrides))) return;
+  // const submittedTx = await contract.setBaseURI(args.uri, overrides);
+  //
+  // console.log(`Submitted tx ${submittedTx.hash}`);
+  //
+  // await submittedTx.wait();
+  //
+  // console.log('Set baseURI:', submittedTx.hash);
 };
